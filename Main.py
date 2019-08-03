@@ -1,5 +1,6 @@
 from HelperFunctions import *
 import time
+from StockObjFilters import *
 
 
 # Asks for input from user 
@@ -11,8 +12,14 @@ print("###################################################")
 start_time = time.time()
 
 stockObjList = extract_stats(stocks)
+# Apply all filters
+for customFilter in FILTERSLIST:
+    stockObjList = list(filter(customFilter, stockObjList))
+# Sort by properties
+stockObjList = apply_sorting(stockObjList)
+
 for stockObj in stockObjList:
-    print(stockObj)
+    print(stockObj.stockTitle)
 
 print("\nTotal execution time " + str((time.time() - start_time)))
 print("###################################################")

@@ -28,7 +28,6 @@ def extract_stats(stockList):
         'operatingCashflow': 'Operating cash flow',
         'trailingPE': 'Trailing P/E',
         'pegRatio': 'PEG ratio (5-yr expected)',
-        'priceToSalesTrailing12Months': 'Price/sales',
         'dividendYield': '5-year average dividend yield',
         'revenueGrowth': 'Quarterly revenue growth',
         'returnOnEquity': 'Return on equity',
@@ -44,7 +43,6 @@ def extract_stats(stockList):
             'operatingCashflow': "",
             'trailingPE': "",
             'pegRatio': "",
-            'priceToSalesTrailing12Months': "",
             'dividendYield': "",
             'revenueGrowth': "",
             'returnOnEquity': "",
@@ -54,21 +52,26 @@ def extract_stats(stockList):
         r  = requests.get("https://uk.finance.yahoo.com/quote/" + stock + "/key-statistics")
         pageResponse = r.text
         soup = BeautifulSoup(pageResponse,"html.parser")
-        for key, value in elementsToFind.items():
-            extractedText = soup.find("span", string=value).parent.findNext("td")
-            if(extractedText == None):
-                extractedText = None
-            else:
-                extractedText = clean_value(extractedText.text)
-            paramDict[key] = extractedText
+        try:
+            for key, value in elementsToFind.items():
+                extractedText = soup.find("span", string=value).parent.findNext("td")
+                if(extractedText == None):
+                    extractedText = None
+                else:
+                    extractedText = clean_value(key, extractedText.text)
+                paramDict[key] = extractedText
+        except:
+            continue
         
         finalResult.append(StockModel(stock, **paramDict))
 
     return finalResult
 
 
-def clean_value(value):
-    
+def clean_value(key, value):
+
+    maxList = ["profitMargins", "operatingMargins", "currentRatio", "revenueGrowth"]
+    minList = ["debtToEquity", "trailingPE", "pegRatio", "enterpriseValueToRevenue"]
     if '%' in value:
         return float(value.replace('%',''))
     if 'B' in value:
@@ -80,4 +83,46 @@ def clean_value(value):
     try:
         return float(value)
     except:
-        return None
+        if(key in maxList):
+            return float('-inf')
+        else:
+            return float('inf')
+
+
+def apply_sorting(customListObj):
+    customListObj.sort(key=lambda x: x.profitMargins, reverse=True)
+    sorting_index_calc(customListObj)
+
+    customListObj.sort(key=lambda x: x.operatingMargins, reverse=True)
+    sorting_index_calc(customListObj)
+
+    customListObj.sort(key=lambda x: x.debtToEquity, reverse=False)
+    sorting_index_calc(customListObj)
+
+    customListObj.sort(key=lambda x: x.currentRatio, reverse=True)
+    sorting_index_calc(customListObj)
+
+    customListObj.sort(key=lambda x: x.trailingPE, reverse=False)
+    sorting_index_calc(customListObj)
+
+    customListObj.sort(key=lambda x: x.pegRatio, reverse=False)
+    sorting_index_calc(customListObj)
+
+    customListObj.sort(key=lambda x: x.revenueGrowth, reverse=True)
+    sorting_index_calc(customListObj)
+
+    customListObj.sort(key=lambda x: x.enterpriseValueToRevenue, reverse=False)
+    sorting_index_calc(customListObj)
+
+    customListObj.sort(key=lambda x: x.index, reverse=False)
+
+    return customListObj
+
+    
+
+
+
+def sorting_index_calc(customListObj):
+    for i in range(len(customListObj)):
+        customListObj[i].index += i
+    return customListObj

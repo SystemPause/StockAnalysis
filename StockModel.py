@@ -9,7 +9,6 @@ class StockModel:
         self.operatingCashflow = kwargs['operatingCashflow']
         self.trailingPE = kwargs['trailingPE']
         self.pegRatio = kwargs['pegRatio']
-        self.priceToSalesTrailing12Months = kwargs['priceToSalesTrailing12Months']
         self.dividendYield = kwargs['dividendYield']
         self.revenueGrowth = kwargs['revenueGrowth']
         self.returnOnEquity = kwargs['returnOnEquity']
@@ -26,7 +25,6 @@ class StockModel:
         myString += "operatingCashflow: " + str(self.operatingCashflow) + "\n" 
         myString += "trailingPE: " + str(self.trailingPE) + "\n" 
         myString += "pegRatio: " + str(self.pegRatio) + "\n" 
-        myString += "priceToSalesTrailing12Months: " + str(self.priceToSalesTrailing12Months) + "\n" 
         myString += "dividendYield: " + str(self.dividendYield) + "\n" 
         myString += "revenueGrowth: " + str(self.revenueGrowth) + "\n" 
         myString += "returnOnEquity: " + str(self.returnOnEquity) + "\n" 
