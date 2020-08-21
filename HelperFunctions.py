@@ -13,7 +13,7 @@ def get_values_from_yahoo(inputUrl):
         data = r.text
         soup = BeautifulSoup(data,"html.parser")
         for link in soup.find_all("a"):
-            if link.get("class") == ['Fw(600)']:
+            if 'Fw(600)' in link.get("class"):
                 temp.append(str(link.text))
         offset += 100
     return temp
