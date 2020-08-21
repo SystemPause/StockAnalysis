@@ -74,6 +74,8 @@ def clean_value(key, value):
     minList = ["debtToEquity", "trailingPE", "pegRatio", "enterpriseValueToRevenue"]
     if '%' in value:
         return float(value.replace('%',''))
+    if 'T' in value:
+        return float(value.replace('T','')) * 10**12
     if 'B' in value:
         return float(value.replace('B','')) * 10**9
     if 'M' in value:
