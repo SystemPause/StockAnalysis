@@ -1,7 +1,7 @@
 
 def currentRatio_filter(obj):
     if obj.currentRatio is None:
-        return True
+        return False
         
     if obj.currentRatio >= 1.25:
         return True
@@ -9,7 +9,7 @@ def currentRatio_filter(obj):
 
 def operatingCashflow_filter(obj):
     if obj.operatingCashflow is None:
-        return True
+        return False
         
     if obj.operatingCashflow >= 0:
         return True
@@ -17,7 +17,7 @@ def operatingCashflow_filter(obj):
 
 def pegRatio_filter(obj):
     if obj.pegRatio is None:
-        return True
+        return False
         
     if obj.pegRatio <= 1.5:
         return True
@@ -25,7 +25,7 @@ def pegRatio_filter(obj):
 
 def dividendYield_filter(obj):
     if obj.dividendYield is None:
-        return True
+        return False
         
     if obj.dividendYield >= 0:
         return True
@@ -33,7 +33,7 @@ def dividendYield_filter(obj):
 
 def revenueGrowth_filter(obj):
     if obj.revenueGrowth is None:
-        return True
+        return False
         
     if obj.revenueGrowth >= 8:
         return True
@@ -41,7 +41,7 @@ def revenueGrowth_filter(obj):
 
 def averageVolume_filter(obj):
     if obj.averageVolume is None:
-        return True
+        return False
         
     if obj.averageVolume >= 400000:
         return True
