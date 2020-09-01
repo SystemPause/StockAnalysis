@@ -49,10 +49,11 @@ def extract_stats(stockList):
             'averageVolume': "",
             'enterpriseValueToRevenue':""
         }
-        r  = requests.get("https://uk.finance.yahoo.com/quote/" + stock + "/key-statistics")
-        pageResponse = r.text
-        soup = BeautifulSoup(pageResponse,"html.parser")
+        
         try:
+            r  = requests.get("https://uk.finance.yahoo.com/quote/" + stock + "/key-statistics")
+            pageResponse = r.text
+            soup = BeautifulSoup(pageResponse,"html.parser")
             for key, value in elementsToFind.items():
                 extractedText = soup.find("span", string=value).parent.findNext("td")
                 if(extractedText == None):
@@ -60,11 +61,10 @@ def extract_stats(stockList):
                 else:
                     extractedText = clean_value(key, extractedText.text)
                 paramDict[key] = extractedText
+            finalResult.append(StockModel(stock, **paramDict))
         except:
             continue
         
-        finalResult.append(StockModel(stock, **paramDict))
-
     return finalResult
 
 
