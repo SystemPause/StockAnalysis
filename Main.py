@@ -18,7 +18,7 @@ for customFilter in FILTERSLIST:
 # Sort by properties
 stockObjList = apply_sorting(stockObjList)
 
-print('\n\n')
+print('\n')
 for i in range(len(stockObjList)):
     stockObj = stockObjList[i]
     print(str(i+1) + ": " + stockObj.stockTitle)
