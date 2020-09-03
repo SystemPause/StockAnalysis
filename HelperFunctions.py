@@ -2,6 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 from StockModel import *
 import pprint
+from tqdm import tqdm
 
 def get_values_from_yahoo(inputUrl):
     offset = 0
@@ -36,7 +37,8 @@ def extract_stats(stockList):
         'averageVolume': 'Avg vol (10-day)',
         'enterpriseValueToRevenue': 'Enterprise value/revenue'
     }
-    for stock in stockList:
+    for index in tqdm(range(len(stockList))):
+        stock = stockList[index]
         paramDict = {
             'profitMargins': "",
             'operatingMargins': "",
