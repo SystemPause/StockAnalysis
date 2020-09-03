@@ -18,8 +18,10 @@ for customFilter in FILTERSLIST:
 # Sort by properties
 stockObjList = apply_sorting(stockObjList)
 
-for stockObj in stockObjList:
-    print(stockObj.stockTitle)
+print('\n\n')
+for i in range(len(stockObjList)):
+    stockObj = stockObjList[i]
+    print(str(i+1) + ": " + stockObj.stockTitle)
 
 print("\nTotal execution time " + str((time.time() - start_time)))
 print("###################################################")
