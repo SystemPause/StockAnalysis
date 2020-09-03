@@ -14,8 +14,10 @@ def get_values_from_yahoo(inputUrl):
         soup = BeautifulSoup(data,"html.parser")
         for link in soup.find_all("a"):
             if 'Fw(600)' in link.get("class"):
-                temp.append(str(link.text))
+                if ' ' not in str(link.text):
+                    temp.append(str(link.text))
         offset += 100
+    print("Checksum on extracted results:" + str(len(temp)))
     return temp
 
 def extract_stats(stockList):
@@ -50,6 +52,7 @@ def extract_stats(stockList):
             'enterpriseValueToRevenue':""
         }
         
+        stockModel = None
         try:
             r  = requests.get("https://uk.finance.yahoo.com/quote/" + stock + "/key-statistics")
             pageResponse = r.text
@@ -61,9 +64,11 @@ def extract_stats(stockList):
                 else:
                     extractedText = clean_value(key, extractedText.text)
                 paramDict[key] = extractedText
-            finalResult.append(StockModel(stock, **paramDict))
+            stockModel = StockModel(stock, **paramDict)
+            
         except:
             continue
+        finalResult.append(stockModel)
         
     return finalResult
 
