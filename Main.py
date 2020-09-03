@@ -6,7 +6,6 @@ from StockObjFilters import *
 # Asks for input from user 
 inputLink = input("\n>>>Type Yahoo Screener URL:\n")
 stocks = get_values_from_yahoo(inputLink)
-print(stocks)
 print("\n>>>Computing...\n")
 print("###################################################")
 start_time = time.time()
