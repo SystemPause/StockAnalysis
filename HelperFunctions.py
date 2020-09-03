@@ -16,7 +16,7 @@ def get_values_from_yahoo(inputUrl):
             if 'Fw(600)' in link.get("class"):
                 if ' ' not in str(link.text):
                     temp.append(str(link.text))
-        offset += 100
+        offset += 25
     print("Checksum on extracted results:" + str(len(temp)))
     return temp
 
