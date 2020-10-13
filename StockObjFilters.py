@@ -1,9 +1,41 @@
+def pegRatio_filter(obj):
+    if obj.pegRatio is None:
+        return False
+        
+    if obj.pegRatio <= 1.5:
+        return True
+    return False
+
+def enterpriseValueToEBITDA_filter(obj):
+    if obj.enterpriseValueToEBITDA is None:
+        return False
+        
+    if obj.enterpriseValueToEBITDA <= 15:
+        return True
+    return False
+
+def returnOnEquity_filter(obj):
+    if obj.returnOnEquity is None:
+        return False
+        
+    if obj.returnOnEquity >= 10:
+        return True
+    return False
+
+def quarterlyRevenueGrowth_filter(obj):
+    if obj.quarterlyRevenueGrowth is None:
+        return False
+        
+    if obj.quarterlyRevenueGrowth >= 8:
+        return True
+    return False 
+
 
 def currentRatio_filter(obj):
     if obj.currentRatio is None:
         return False
         
-    if obj.currentRatio >= 1.25:
+    if obj.currentRatio >= 1.2:
         return True
     return False
 
@@ -15,37 +47,15 @@ def operatingCashflow_filter(obj):
         return True
     return False
 
-def pegRatio_filter(obj):
-    if obj.pegRatio is None:
+
+def fiveYearAveragedividendYield_filter(obj):
+    if obj.fiveYearAveragedividendYield is None:
         return False
         
-    if obj.pegRatio <= 1.5:
+    if obj.fiveYearAveragedividendYield >= 0:
         return True
     return False
 
-def dividendYield_filter(obj):
-    if obj.dividendYield is None:
-        return False
-        
-    if obj.dividendYield >= 0:
-        return True
-    return False
-
-def revenueGrowth_filter(obj):
-    if obj.revenueGrowth is None:
-        return False
-        
-    if obj.revenueGrowth >= 8:
-        return True
-    return False 
-
-def averageVolume_filter(obj):
-    if obj.averageVolume is None:
-        return False
-        
-    if obj.averageVolume >= 400000:
-        return True
-    return False 
 
 # Add the filter to apply here
-FILTERSLIST = [currentRatio_filter, operatingCashflow_filter, pegRatio_filter, dividendYield_filter, revenueGrowth_filter, averageVolume_filter]
+FILTERSLIST = [pegRatio_filter,enterpriseValueToEBITDA_filter,returnOnEquity_filter,quarterlyRevenueGrowth_filter,currentRatio_filter,operatingCashflow_filter,fiveYearAveragedividendYield_filter]

@@ -24,39 +24,47 @@ def get_values_from_yahoo(inputUrl):
 def extract_stats(stockList):
     finalResult = []
     elementsToFind = {
-        'profitMargins': 'Profit margin',
-        'operatingMargins': 'Operating margin',
-        'debtToEquity': 'Total debt/equity',
-        'currentRatio': 'Current ratio',
-        'operatingCashflow': 'Operating cash flow',
         'trailingPE': 'Trailing P/E',
-        'pegRatio': 'PEG ratio (5-yr expected)',
-        'dividendYield': '5-year average dividend yield',
-        'revenueGrowth': 'Quarterly revenue growth',
-        'returnOnEquity': 'Return on equity',
-        'averageVolume': 'Avg vol (10-day)',
-        'enterpriseValueToRevenue': 'Enterprise value/revenue'
+        'pegRatio': 'PEG Ratio (5 yr expected)',
+        'priceToSales': 'Price/Sales',
+        'priceToBook': 'Price/Book',
+        'enterpriseValueToRevenue': 'Enterprise Value/Revenue',
+        'enterpriseValueToEBITDA': 'Enterprise Value/EBITDA',
+        'profitMargins': 'Profit Margin',
+        'operatingMargins': 'Operating Margin',
+        'returnOnAssets': 'Return on Assets',
+        'returnOnEquity': 'Return on Equity',
+        'quarterlyRevenueGrowth': 'Quarterly Revenue Growth',
+        'totalCashPerShare': 'Total Cash Per Share',
+        'totalDebtToEquity': 'Total Debt/Equity',
+        'currentRatio': 'Current Ratio',
+        'operatingCashflow': 'Operating Cash Flow',
+        'fiveYearAveragedividendYield': '5 Year Average Dividend Yield',
     }
     for index in tqdm(range(len(stockList))):
         stock = stockList[index]
         paramDict = {
-            'profitMargins': "",
-            'operatingMargins': "",
-            'debtToEquity': "",
-            'currentRatio': "",
-            'operatingCashflow': "",
-            'trailingPE': "",
-            'pegRatio': "",
-            'dividendYield': "",
-            'revenueGrowth': "",
-            'returnOnEquity': "",
-            'averageVolume': "",
-            'enterpriseValueToRevenue':""
+            'trailingPE': '',
+            'pegRatio': '',
+            'priceToSales': '',
+            'priceToBook': '',
+            'enterpriseValueToRevenue': '',
+            'enterpriseValueToEBITDA': '',
+            'profitMargins': '',
+            'operatingMargins': '',
+            'returnOnAssets': '',
+            'returnOnEquity': '',
+            'quarterlyRevenueGrowth': '',
+            'totalCashPerShare': '',
+            'totalDebtToEquity': '',
+            'currentRatio': '',
+            'operatingCashflow': '',
+            'fiveYearAveragedividendYield': '',
         }
         
         stockModel = None
         try:
-            r  = requests.get("https://uk.finance.yahoo.com/quote/" + stock + "/key-statistics")
+            r  = requests.get("https://finance.yahoo.com/quote/" + stock + "/key-statistics")
             pageResponse = r.text
             soup = BeautifulSoup(pageResponse,"html.parser")
             for key, value in elementsToFind.items():
@@ -71,14 +79,13 @@ def extract_stats(stockList):
         except:
             continue
         finalResult.append(stockModel)
-        
     return finalResult
 
 
 def clean_value(key, value):
 
-    maxList = ["profitMargins", "operatingMargins", "currentRatio", "revenueGrowth"]
-    minList = ["debtToEquity", "trailingPE", "pegRatio", "enterpriseValueToRevenue"]
+    maxList = ["profitMargins", "operatingMargins", "returnOnAssets", "returnOnEquity", "quarterlyRevenueGrowth", "totalCashPerShare", "currentRatio", "operatingCashflow", "fiveYearAveragedividendYield"]
+    minList = ["trailingPE", "pegRatio", "priceToSales", "priceToBook", "enterpriseValueToRevenue", "enterpriseValueToEBITDA", "totalDebtToEquity"]
     if '%' in value:
         return float(value.replace('%',''))
     if 'T' in value:
@@ -99,30 +106,56 @@ def clean_value(key, value):
 
 
 def apply_sorting(customListObj):
-    customListObj.sort(key=lambda x: x.profitMargins, reverse=True)
-    sorting_index_calc(customListObj)
 
-    customListObj.sort(key=lambda x: x.operatingMargins, reverse=True)
-    sorting_index_calc(customListObj)
-
-    customListObj.sort(key=lambda x: x.debtToEquity, reverse=False)
-    sorting_index_calc(customListObj)
-
-    customListObj.sort(key=lambda x: x.currentRatio, reverse=True)
-    sorting_index_calc(customListObj)
-
+    # NEGATIVES
     customListObj.sort(key=lambda x: x.trailingPE, reverse=False)
-    sorting_index_calc(customListObj)
+    customListObj = sorting_index_calc(customListObj)
 
     customListObj.sort(key=lambda x: x.pegRatio, reverse=False)
-    sorting_index_calc(customListObj)
+    customListObj = sorting_index_calc(customListObj)
 
-    customListObj.sort(key=lambda x: x.revenueGrowth, reverse=True)
-    sorting_index_calc(customListObj)
+    customListObj.sort(key=lambda x: x.priceToSales, reverse=False)
+    customListObj = sorting_index_calc(customListObj)
+
+    customListObj.sort(key=lambda x: x.priceToBook, reverse=False)
+    customListObj = sorting_index_calc(customListObj)
 
     customListObj.sort(key=lambda x: x.enterpriseValueToRevenue, reverse=False)
-    sorting_index_calc(customListObj)
+    customListObj = sorting_index_calc(customListObj)
 
+    customListObj.sort(key=lambda x: x.enterpriseValueToEBITDA, reverse=False)
+    customListObj = sorting_index_calc(customListObj)
+
+    customListObj.sort(key=lambda x: x.totalDebtToEquity, reverse=False)
+    customListObj = sorting_index_calc(customListObj)
+    
+
+
+
+    # POSITIVES
+    customListObj.sort(key=lambda x: x.profitMargins, reverse=True)
+    customListObj = sorting_index_calc(customListObj)
+
+    customListObj.sort(key=lambda x: x.operatingMargins, reverse=True)
+    customListObj = sorting_index_calc(customListObj)
+
+    customListObj.sort(key=lambda x: x.returnOnAssets, reverse=True)
+    customListObj = sorting_index_calc(customListObj)
+
+    customListObj.sort(key=lambda x: x.returnOnEquity, reverse=True)
+    customListObj = sorting_index_calc(customListObj)
+
+    customListObj.sort(key=lambda x: x.quarterlyRevenueGrowth, reverse=True)
+    customListObj = sorting_index_calc(customListObj)
+
+    customListObj.sort(key=lambda x: x.totalCashPerShare, reverse=True)
+    customListObj = sorting_index_calc(customListObj)
+
+    customListObj.sort(key=lambda x: x.currentRatio, reverse=True)
+    customListObj = sorting_index_calc(customListObj)
+
+
+    # This is the final sorting to sort by index. It's false because we want the smallest first
     customListObj.sort(key=lambda x: x.index, reverse=False)
 
     return customListObj

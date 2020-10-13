@@ -10,10 +10,12 @@ print("\n>>>Computing...\n")
 print("###################################################")
 start_time = time.time()
 
+# We first extract all relevant stats
 stockObjList = extract_stats(stocks)
-# Apply all filters
+# Apply all filters, so we filter out what does not satisy our criteria
 for customFilter in FILTERSLIST:
     stockObjList = list(filter(customFilter, stockObjList))
+
 # Sort by properties
 stockObjList = apply_sorting(stockObjList)
 
