@@ -56,7 +56,7 @@ def extract_stats(stockList):
         
         stockModel = None
         try:
-            r  = requests.get("https://uk.finance.yahoo.com/quote/" + stock + "/key-statistics")
+            r  = requests.get("https://finance.yahoo.com/quote/" + stock + "/key-statistics")
             pageResponse = r.text
             soup = BeautifulSoup(pageResponse,"html.parser")
             for key, value in elementsToFind.items():
