@@ -25,21 +25,21 @@ def extract_stats(stockList):
     finalResult = []
     elementsToFind = {
         'trailingPE': 'Trailing P/E',
-        'pegRatio': 'PEG Ratio (5 yr expected)',
-        'priceToSales': 'Price/Sales',
-        'priceToBook': 'Price/Book',
-        'enterpriseValueToRevenue': 'Enterprise Value/Revenue',
-        'enterpriseValueToEBITDA': 'Enterprise Value/EBITDA',
-        'profitMargins': 'Profit Margin',
-        'operatingMargins': 'Operating Margin',
-        'returnOnAssets': 'Return on Assets',
-        'returnOnEquity': 'Return on Equity',
-        'quarterlyRevenueGrowth': 'Quarterly Revenue Growth',
-        'totalCashPerShare': 'Total Cash Per Share',
-        'totalDebtToEquity': 'Total Debt/Equity',
-        'currentRatio': 'Current Ratio',
-        'operatingCashflow': 'Operating Cash Flow',
-        'fiveYearAveragedividendYield': '5 Year Average Dividend Yield',
+        'pegRatio': 'PEG ratio (5-yr expected)',
+        'priceToSales': 'Price/sales',
+        'priceToBook': 'Price/book',
+        'enterpriseValueToRevenue': 'Enterprise value/revenue',
+        'enterpriseValueToEBITDA': 'Enterprise value/EBITDA',
+        'profitMargins': 'Profit margin',
+        'operatingMargins': 'Operating margin',
+        'returnOnAssets': 'Return on assets',
+        'returnOnEquity': 'Return on equity',
+        'quarterlyRevenueGrowth': 'Quarterly revenue growth',
+        'totalCashPerShare': 'Total cash per share',
+        'totalDebtToEquity': 'Total debt/equity',
+        'currentRatio': 'Current ratio',
+        'operatingCashflow': 'Operating cash flow',
+        'fiveYearAveragedividendYield': '5-year average dividend yield',
     }
     for index in tqdm(range(len(stockList))):
         stock = stockList[index]
@@ -64,7 +64,7 @@ def extract_stats(stockList):
         
         stockModel = None
         try:
-            r  = requests.get("https://finance.yahoo.com/quote/" + stock + "/key-statistics")
+            r  = requests.get("https://uk.finance.yahoo.com/quote/" + stock + "/key-statistics")
             pageResponse = r.text
             soup = BeautifulSoup(pageResponse,"html.parser")
             for key, value in elementsToFind.items():
