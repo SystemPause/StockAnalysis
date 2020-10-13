@@ -24,18 +24,18 @@ def get_values_from_yahoo(inputUrl):
 def extract_stats(stockList):
     finalResult = []
     elementsToFind = {
-        'profitMargins': 'Profit margin',
-        'operatingMargins': 'Operating margin',
-        'debtToEquity': 'Total debt/equity',
-        'currentRatio': 'Current ratio',
-        'operatingCashflow': 'Operating cash flow',
+        'profitMargins': 'Profit Margin',
+        'operatingMargins': 'Operating Margin',
+        'debtToEquity': 'Total Debt/Equity',
+        'currentRatio': 'Current Ratio',
+        'operatingCashflow': 'Operating Cash Flow',
         'trailingPE': 'Trailing P/E',
-        'pegRatio': 'PEG ratio (5-yr expected)',
-        'dividendYield': '5-year average dividend yield',
-        'revenueGrowth': 'Quarterly revenue growth',
-        'returnOnEquity': 'Return on equity',
-        'averageVolume': 'Avg vol (10-day)',
-        'enterpriseValueToRevenue': 'Enterprise value/revenue'
+        'pegRatio': 'PEG Ratio (5 yr expected)',
+        'dividendYield': '5 Year Average Dividend Yield',
+        'revenueGrowth': 'Quarterly Revenue Growth',
+        'returnOnEquity': 'Return on Equity',
+        'averageVolume': 'Avg Vol (10 day)',
+        'enterpriseValueToRevenue': 'Enterprise Value/Revenue'
     }
     for index in tqdm(range(len(stockList))):
         stock = stockList[index]
