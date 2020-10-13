@@ -69,6 +69,7 @@ def extract_stats(stockList):
             stockModel = StockModel(stock, **paramDict)
             
         except:
+            print('\n' + stock + " : " + value)
             continue
         finalResult.append(stockModel)
         
