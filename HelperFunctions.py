@@ -4,9 +4,17 @@ from StockModel import *
 import pprint
 from tqdm import tqdm
 
-def get_values_from_yahoo(inputUrl):
+def get_estimated_results(inputUrl):
+    r  = requests.get(inputUrl)
+    data = r.text
+    soup = BeautifulSoup(data,"html.parser")
+    estimatedResults = int((soup.find(class_="Mstart(15px) Fw(500) Fz(s)").text).split(" ")[2])
+    return estimatedResults
+
+# The function returns a list of tuples containing
+# the stock code and the stock title
+def get_values_from_yahoo(inputUrl, estimatedResults):
     offset = 0
-    estimatedResults = int(input("\n>>>Type the number of estimated results:\n"))
 
     temp = []
     while offset < estimatedResults:
@@ -16,7 +24,10 @@ def get_values_from_yahoo(inputUrl):
         for link in soup.find_all("a"):
             if 'Fw(600)' in link.get("class"):
                 if ' ' not in str(link.text):
-                    temp.append(str(link.text))
+                    # Now we append a tuple to the list. 
+                    # - The first value is the stock code 
+                    # - The second value is the stock full name
+                    temp.append((str(link.text), link['title']))
         offset += 25
     print("Checksum on extracted results:" + str(len(temp)))
     return temp
@@ -56,7 +67,8 @@ def extract_stats(stockList):
         
         stockModel = None
         try:
-            r  = requests.get("https://uk.finance.yahoo.com/quote/" + stock + "/key-statistics")
+            # Notice we need stock[0] as we are accessing the first element in the tuple
+            r  = requests.get("https://uk.finance.yahoo.com/quote/" + stock[0] + "/key-statistics")
             pageResponse = r.text
             soup = BeautifulSoup(pageResponse,"html.parser")
             for key, value in elementsToFind.items():
@@ -66,10 +78,10 @@ def extract_stats(stockList):
                 else:
                     extractedText = clean_value(key, extractedText.text)
                 paramDict[key] = extractedText
-            stockModel = StockModel(stock, **paramDict)
+            stockModel = StockModel(stock[0], stock[1], **paramDict)
             
         except:
-            print('\n' + stock + " : " + value)
+            print('\n' + stock[0] + " - " + stock[1] + " : " + value)
             continue
         finalResult.append(stockModel)
         
@@ -80,6 +92,8 @@ def clean_value(key, value):
 
     maxList = ["profitMargins", "operatingMargins", "currentRatio", "revenueGrowth"]
     minList = ["debtToEquity", "trailingPE", "pegRatio", "enterpriseValueToRevenue"]
+    if ',' in value: 
+        value = value.replace(',','')
     if '%' in value:
         return float(value.replace('%',''))
     if 'T' in value:

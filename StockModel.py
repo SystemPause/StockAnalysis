@@ -1,6 +1,7 @@
 class StockModel:
-    def __init__(self, stockTitle,  **kwargs):
+    def __init__(self, stockTitle, stockFullTitle, **kwargs):
         self.stockTitle = stockTitle
+        self.stockFullTitle = stockFullTitle
         self.index = 0
         self.profitMargins = kwargs['profitMargins']
         self.operatingMargins = kwargs['operatingMargins']
@@ -17,6 +18,7 @@ class StockModel:
 
     def __str__(self):
         myString = "stockTitle: " + self.stockTitle  + "\n" 
+        myString += "stockFullTitle: " + self.stockFullTitle  + "\n" 
         myString += "index: " + str(self.index) + "\n" 
         myString += "profitMargins: " + str(self.profitMargins) + "\n" 
         myString += "operatingMargins: " + str(self.operatingMargins) + "\n" 
