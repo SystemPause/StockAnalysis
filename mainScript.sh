@@ -1,4 +1,4 @@
-declare -a emailAddresses=("alessandrospeggiorin@gmail.com")
+declare -a emailAddresses=("alessandrospeggiorin@gmail.com" "m19.massimiliano@gmail.com")
 declare -a screenerUrls=("undervalued_large_caps" "most_actives" "day_gainers" "day_losers")
 
 
@@ -6,7 +6,7 @@ declare -a screenerUrls=("undervalued_large_caps" "most_actives" "day_gainers" "
 for url in "${screenerUrls[@]}"
 do
     echo $url
-    python3 Main.py auto "https://finance.yahoo.com/screener/predefined/${url}"
+    python3 Main.py auto "https://uk.finance.yahoo.com/screener/predefined/${url}"
 done
 
 # Send the email containing the files
