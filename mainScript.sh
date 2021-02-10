@@ -1,5 +1,5 @@
 declare -a emailAddresses=("alessandrospeggiorin@gmail.com" "m19.massimiliano@gmail.com")
-declare -a screenerUrls=("undervalued_large_caps" "most_actives" "day_gainers" "day_losers")
+declare -a screenerUrls=("day_gainers" "day_losers" "undervalued_large_caps" "most_actives")
 
 
 # Get all the stock info and save them as files. 
