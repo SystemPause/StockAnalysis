@@ -3,8 +3,29 @@ from bs4 import BeautifulSoup
 from StockModel import *
 import pprint
 from tqdm import tqdm
+import time 
+
+requests_tracker = 0
+
+def requests_hits_monitor():
+    global requests_tracker
+    
+
+    # Put to sleep every 500 requests
+    if(requests_tracker == 500):
+        
+        print("Sleeping...")
+        # Sleep for 20min
+        time.sleep(1200)
+        requests_tracker = 0
+        print("Let's get back to work...")
+    else:
+        requests_tracker += 1
+    
+
 
 def get_estimated_results(inputUrl):
+    requests_hits_monitor()
     r  = requests.get(inputUrl)
     data = r.text
     soup = BeautifulSoup(data,"html.parser")
@@ -18,6 +39,7 @@ def get_values_from_yahoo(inputUrl, estimatedResults):
 
     temp = []
     while offset < estimatedResults:
+        requests_hits_monitor()
         r  = requests.get(inputUrl + "?offset=" + str(offset))
         data = r.text
         soup = BeautifulSoup(data,"html.parser")
@@ -67,6 +89,7 @@ def extract_stats(stockList):
         
         stockModel = None
         try:
+            requests_hits_monitor()
             # Notice we need stock[0] as we are accessing the first element in the tuple
             r  = requests.get("https://uk.finance.yahoo.com/quote/" + stock[0] + "/key-statistics")
             pageResponse = r.text
